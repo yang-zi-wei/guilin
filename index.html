@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#1a1a1a" />
+  <title>桂林·三日卷 — 山水甲天下</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=ZCOOL+XiaoWei&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --paper: #efe7d4;
+      --paper-2: #e6dcc3;
+      --paper-deep: #d9cdb0;
+      --ink: #1c1a17;
+      --ink-soft: #2c2a25;
+      --ink-mute: #5a544a;
+      --vermillion: #a8362a;
+      --vermillion-deep: #7d2a20;
+      --jade: #3a5a40;
+      --jade-deep: #243d2a;
+      --gold: #b08949;
+      --mist: rgba(28,26,23,.08);
+
+      --display: "Ma Shan Zheng", "ZCOOL XiaoWei", "Noto Serif SC", serif;
+      --serif: "Noto Serif SC", "Songti SC", "STSong", serif;
+      --num: "Cormorant Garamond", "Times New Roman", serif;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+    html,body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.7;overflow-x:hidden}
+    body{
+      background:
+        radial-gradient(1200px 600px at 20% -10%, rgba(168,54,42,.08), transparent 60%),
+        radial-gradient(900px 500px at 110% 30%, rgba(58,90,64,.10), transparent 60%),
+        var(--paper);
+      position:relative;
+    }
+    /* 宣纸纹理噪点 */
+    body::before{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;mix-blend-mode:multiply;
+      background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.10  0 0 0 0 0.09  0 0 0 0 0.08  0 0 0 0.16 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    }
+    /* 纸张折痕长边 */
+    body::after{
+      content:"";position:fixed;inset:0;pointer-events:none;z-index:1;
+      background:
+        linear-gradient(180deg,rgba(0,0,0,.06),transparent 8%,transparent 92%,rgba(0,0,0,.07)),
+        radial-gradient(120% 60% at 50% 0%, rgba(168,54,42,.06), transparent 60%);
+    }
+
+    .stage{max-width:520px;margin:0 auto;position:relative;z-index:2;padding:0 22px;padding-bottom:120px}
+
+    /* ============== HERO ============== */
+    .hero{position:relative;padding:56px 0 30px;min-height:96vh;display:flex;flex-direction:column;justify-content:space-between}
+    .hero-top{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--num);letter-spacing:.18em;font-size:11px;color:var(--ink-mute);text-transform:uppercase}
+    .hero-top .left{writing-mode:horizontal-tb}
+    .hero-top .right{text-align:right;line-height:1.5}
+    .hero-top .right b{display:block;color:var(--ink);font-weight:500;letter-spacing:.3em}
+
+    .hero-title{margin-top:54px;position:relative}
+    .hero-title .vert{
+      writing-mode:vertical-rl;
+      font-family:var(--display);
+      font-size:84px;
+      letter-spacing:.05em;
+      line-height:1;
+      color:var(--ink);
+      position:absolute;
+      right:-2px;top:-12px;
+      height:auto;
+      text-shadow:0 0 30px rgba(168,54,42,.06);
+    }
+    .hero-title .sub-en{
+      font-family:var(--num);font-style:italic;font-weight:300;font-size:14px;color:var(--ink-mute);
+      letter-spacing:.22em;text-transform:uppercase
+    }
+    .hero-title h1{
+      font-family:var(--display);
+      font-weight:400;
+      font-size:78px;
+      line-height:.95;
+      margin-top:22px;
+      color:var(--ink);
+      letter-spacing:.02em;
+    }
+    .hero-title h1 .accent{color:var(--vermillion);position:relative}
+    .hero-title h1 .accent::after{
+      content:"";position:absolute;left:-4px;right:-4px;bottom:6px;height:10px;
+      background:rgba(168,54,42,.18);z-index:-1;border-radius:2px;
+    }
+    .tagline{
+      font-family:var(--display);font-size:22px;color:var(--ink-soft);margin-top:18px;
+      letter-spacing:.18em;
+    }
+
+    .hero-meta{
+      display:flex;gap:22px;margin-top:28px;align-items:center;
+      font-family:var(--num);font-size:13px;color:var(--ink-mute);letter-spacing:.18em;text-transform:uppercase;
+    }
+    .hero-meta .dot{width:5px;height:5px;border-radius:50%;background:var(--vermillion)}
+
+    /* 山水墨色剪影 */
+    .mountain{position:absolute;left:-22px;right:-22px;bottom:90px;width:calc(100% + 44px);height:220px;pointer-events:none;opacity:.85}
+    .mountain svg{width:100%;height:100%;display:block}
+
+    /* 朱砂印章 */
+    .seal{
+      position:absolute;right:18px;bottom:120px;
+      width:78px;height:78px;border:3px solid var(--vermillion);border-radius:6px;
+      display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;
+      transform:rotate(-6deg);
+      background:rgba(239,231,212,.4);
+      box-shadow:0 0 0 1.5px var(--vermillion) inset;
+      filter:drop-shadow(0 0 1px rgba(168,54,42,.5));
+    }
+    .seal span{
+      display:flex;align-items:center;justify-content:center;
+      font-family:var(--display);color:var(--vermillion);font-size:20px;font-weight:700;
+    }
+    .seal::before,.seal::after{
+      content:"";position:absolute;background:var(--paper);
+    }
+    .seal::before{left:50%;top:6%;bottom:6%;width:1.5px;transform:translateX(-50%)}
+    .seal::after{top:50%;left:6%;right:6%;height:1.5px;transform:translateY(-50%)}
+
+    .scroll-cue{
+      position:absolute;left:50%;bottom:18px;transform:translateX(-50%);
+      font-family:var(--num);font-size:11px;letter-spacing:.4em;color:var(--ink-mute);text-transform:uppercase;
+      display:flex;flex-direction:column;align-items:center;gap:8px
+    }
+    .scroll-cue .line{width:1px;height:36px;background:var(--ink-mute);animation:cue 1.8s ease-in-out infinite}
+    @keyframes cue{0%,100%{opacity:.2;transform:scaleY(.6)}50%{opacity:1;transform:scaleY(1)}}
+
+    /* ============== INTRO QUOTE ============== */
+    .quote-block{
+      margin:30px 0 50px;padding:34px 26px;
+      border:1px solid rgba(28,26,23,.18);
+      position:relative;
+      background:linear-gradient(180deg,rgba(255,255,255,.25),rgba(255,255,255,0));
+    }
+    .quote-block::before,.quote-block::after{
+      content:"";position:absolute;width:14px;height:14px;border:1.5px solid var(--ink);
+    }
+    .quote-block::before{top:-1px;left:-1px;border-right:none;border-bottom:none}
+    .quote-block::after{bottom:-1px;right:-1px;border-left:none;border-top:none}
+    .quote-block p{font-family:var(--display);font-size:18px;line-height:1.9;color:var(--ink-soft);letter-spacing:.04em}
+    .quote-block .by{margin-top:14px;font-family:var(--num);font-size:11px;color:var(--ink-mute);letter-spacing:.3em;text-transform:uppercase}
+
+    /* ============== DAY CHAPTERS ============== */
+    .chapter{position:relative;padding:60px 0 30px;scroll-margin-top:20px}
+
+    .chapter-head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;border-bottom:1px solid var(--ink);padding-bottom:18px}
+    .chapter-head .num{
+      font-family:var(--num);font-style:italic;font-weight:300;font-size:96px;line-height:.85;color:var(--ink);
+      letter-spacing:-.04em
+    }
+    .chapter-head .num small{font-size:18px;font-style:normal;letter-spacing:.3em;color:var(--ink-mute);display:block;margin-top:6px}
+    .chapter-head .ch{
+      font-family:var(--display);font-size:34px;line-height:1;color:var(--ink);text-align:right;letter-spacing:.06em;
+    }
+    .chapter-head .ch em{font-style:normal;display:block;font-size:11px;letter-spacing:.4em;color:var(--vermillion);margin-top:10px;font-family:var(--num);text-transform:uppercase}
+
+    .chapter-intro{font-size:15px;color:var(--ink-soft);margin:22px 0 6px;line-height:1.85}
+    .chapter-tags{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 28px}
+    .tag{
+      font-family:var(--num);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+      padding:5px 11px;border:1px solid var(--ink);color:var(--ink);border-radius:999px;
+    }
+    .tag.v{border-color:var(--vermillion);color:var(--vermillion)}
+    .tag.j{border-color:var(--jade);color:var(--jade)}
+
+    /* timeline */
+    .timeline{position:relative;margin-top:14px}
+    .timeline::before{
+      content:"";position:absolute;left:14px;top:8px;bottom:8px;width:1px;
+      background:repeating-linear-gradient(180deg,var(--ink) 0 4px,transparent 4px 9px);
+      opacity:.55
+    }
+    .stop{position:relative;padding:8px 0 26px 44px;cursor:pointer}
+    .stop:last-child{padding-bottom:6px}
+    .stop .pin{
+      position:absolute;left:6px;top:10px;width:18px;height:18px;border-radius:50%;
+      background:var(--paper);border:1.5px solid var(--ink);
+      display:flex;align-items:center;justify-content:center;
+    }
+    .stop .pin::after{content:"";width:6px;height:6px;border-radius:50%;background:var(--vermillion)}
+    .stop[data-key] .pin{transition:transform .3s ease}
+    .stop:active .pin{transform:scale(1.15)}
+    .stop .when{
+      font-family:var(--num);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--ink-mute);
+    }
+    .stop .name{
+      font-family:var(--display);font-size:26px;color:var(--ink);margin-top:4px;letter-spacing:.04em;
+      display:flex;align-items:baseline;gap:12px;flex-wrap:wrap
+    }
+    .stop .name .dur{font-family:var(--num);font-style:italic;font-size:13px;color:var(--ink-mute);letter-spacing:.1em}
+    .stop .desc{font-size:14px;color:var(--ink-soft);margin-top:6px;max-width:38ch}
+
+    /* mini-map card */
+    .mini-card{
+      margin-top:28px;border:1px solid var(--ink);position:relative;
+      background:rgba(255,255,255,.18);
+      overflow:hidden;
+    }
+    .mini-card .head{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:12px 14px;border-bottom:1px solid var(--ink);
+      font-family:var(--num);font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--ink)
+    }
+    .mini-card .head b{font-weight:500}
+    .mini-map{height:240px;width:100%;background:#e3dcc6}
+    .mini-map .amap-logo, .mini-map .amap-copyright{display:none !important}
+
+    /* ============== FULL MAP ============== */
+    .full-map-section{padding:80px 0 40px;position:relative}
+    .section-eyebrow{
+      font-family:var(--num);font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--vermillion);
+      display:flex;align-items:center;gap:10px;margin-bottom:18px;
+    }
+    .section-eyebrow::before{content:"";width:24px;height:1px;background:var(--vermillion)}
+    .full-map-section h2{font-family:var(--display);font-size:42px;line-height:1.1;color:var(--ink);letter-spacing:.05em}
+    .full-map-section h2 small{display:block;font-family:var(--num);font-style:italic;font-weight:300;font-size:16px;color:var(--ink-mute);margin-top:8px;letter-spacing:.2em}
+
+    .legend{display:flex;flex-wrap:wrap;gap:14px;margin:22px 0 14px}
+    .legend .item{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-soft);letter-spacing:.04em}
+    .legend .swatch{width:14px;height:14px;border-radius:4px;border:1px solid rgba(0,0,0,.3)}
+    .legend .s1{background:#a8362a}
+    .legend .s2{background:#3a5a40}
+    .legend .s3{background:#b08949}
+
+    .day-tabs{display:flex;gap:6px;margin:18px 0 12px}
+    .day-tabs button{
+      flex:1;padding:11px 6px;border:1px solid var(--ink);background:transparent;
+      font-family:var(--display);font-size:15px;color:var(--ink);letter-spacing:.1em;
+      transition:all .25s ease;cursor:pointer;
+    }
+    .day-tabs button .en{font-family:var(--num);font-style:italic;font-size:10px;color:var(--ink-mute);display:block;letter-spacing:.2em;text-transform:uppercase;margin-top:2px}
+    .day-tabs button.active{background:var(--ink);color:var(--paper)}
+    .day-tabs button.active .en{color:var(--paper-deep)}
+
+    #full-map{
+      width:100%;height:62vh;min-height:420px;border:1px solid var(--ink);
+      background:#e3dcc6;position:relative;
+    }
+    #full-map .amap-logo, #full-map .amap-copyright{opacity:.4 !important;transform:scale(.7);transform-origin:bottom right}
+
+    /* custom marker style overrides via class */
+    .gl-marker{
+      transform:translate(-50%,-100%);
+      filter:drop-shadow(0 4px 8px rgba(0,0,0,.25));
+    }
+    .gl-marker .body{
+      background:var(--ink);color:var(--paper);font-family:var(--display);font-size:13px;
+      padding:6px 10px 5px;letter-spacing:.06em;border-radius:2px;white-space:nowrap;position:relative;
+      border:1px solid var(--paper-deep);
+    }
+    .gl-marker.day1 .body{background:var(--vermillion)}
+    .gl-marker.day2 .body{background:var(--jade)}
+    .gl-marker.day3 .body{background:var(--gold);color:#1c1a17}
+    .gl-marker .body::after{
+      content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);
+      width:0;height:0;border:6px solid transparent;border-top-color:var(--ink);
+    }
+    .gl-marker.day1 .body::after{border-top-color:var(--vermillion)}
+    .gl-marker.day2 .body::after{border-top-color:var(--jade)}
+    .gl-marker.day3 .body::after{border-top-color:var(--gold)}
+    .gl-marker .num{
+      font-family:var(--num);font-style:italic;font-size:10px;opacity:.85;margin-right:5px;
+    }
+
+    /* ============== TIPS ============== */
+    .tips{margin-top:60px;padding:30px 24px;border:1px solid var(--ink);background:rgba(255,255,255,.18);position:relative}
+    .tips h3{font-family:var(--display);font-size:24px;letter-spacing:.08em;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+    .tips h3 .badge{font-family:var(--num);font-size:10px;background:var(--vermillion);color:var(--paper);padding:3px 8px;letter-spacing:.3em;text-transform:uppercase;border-radius:2px;font-style:normal}
+    .tips ul{list-style:none;display:grid;gap:10px}
+    .tips li{font-size:13.5px;color:var(--ink-soft);padding-left:20px;position:relative;line-height:1.7}
+    .tips li::before{content:"·";position:absolute;left:6px;top:-4px;font-size:22px;color:var(--vermillion)}
+
+    /* ============== FOOTER ============== */
+    footer{margin-top:60px;padding:36px 0 24px;text-align:center;border-top:1px solid var(--ink)}
+    footer .col{font-family:var(--display);font-size:14px;color:var(--ink-mute);letter-spacing:.3em}
+    footer .lat{font-family:var(--num);font-size:11px;color:var(--ink-mute);letter-spacing:.4em;text-transform:uppercase;margin-top:10px}
+    footer .stamp-row{display:flex;justify-content:center;align-items:center;gap:12px;margin-top:18px}
+    footer .stamp-row .dash{width:30px;height:1px;background:var(--ink-mute)}
+    footer .stamp-row .end{font-family:var(--display);color:var(--vermillion);font-size:18px;letter-spacing:.4em}
+
+    /* ============== ANIMATIONS ============== */
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity .9s ease,transform .9s ease}
+    .reveal.in{opacity:1;transform:none}
+    .reveal.d1{transition-delay:.1s}.reveal.d2{transition-delay:.22s}.reveal.d3{transition-delay:.34s}.reveal.d4{transition-delay:.46s}
+
+    /* fly-in for hero title */
+    @keyframes inkRise{from{opacity:0;transform:translateY(40px) scale(.96);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+    .hero-title h1, .hero-title .vert, .tagline, .hero-meta, .hero-top{animation:inkRise 1.4s cubic-bezier(.2,.7,.2,1) both}
+    .hero-title h1{animation-delay:.15s}
+    .tagline{animation-delay:.4s}
+    .hero-meta{animation-delay:.55s}
+    .hero-title .vert{animation-delay:.7s}
+
+    /* responsiveness on slightly larger phones / desktop preview */
+    @media (min-width:520px){
+      .hero-title h1{font-size:96px}
+      .hero-title .vert{font-size:96px}
+    }
+    @media (max-width:360px){
+      .hero-title h1{font-size:64px}
+      .hero-title .vert{font-size:72px;top:-8px}
+      .chapter-head .num{font-size:78px}
+      .chapter-head .ch{font-size:28px}
+      .full-map-section h2{font-size:34px}
+    }
+
+    /* small disclaimer line */
+    .disclaim{font-family:var(--num);font-size:10px;color:var(--ink-mute);letter-spacing:.3em;text-transform:uppercase;text-align:center;margin-top:14px;opacity:.8}
+  </style>
+</head>
+<body>
+
+  <main class="stage">
+
+    <!-- ============= HERO ============= -->
+    <section class="hero">
+      <div class="hero-top">
+        <div class="left">桂&nbsp;·&nbsp;A Three-Day Scroll</div>
+        <div class="right">
+          <b>N° 001</b>
+          25.27°N · 110.29°E
+        </div>
+      </div>
+
+      <div class="hero-title">
+        <div class="vert">山水甲天下</div>
+        <div class="sub-en">A Mobile Field Guide</div>
+        <h1>桂林<br/><span class="accent">三日卷</span></h1>
+        <div class="tagline">江作青罗带 · 山如碧玉簪</div>
+        <div class="hero-meta">
+          <span>03 Days</span><span class="dot"></span>
+          <span>11 Stops</span><span class="dot"></span>
+          <span>1 River</span>
+        </div>
+      </div>
+
+      <div class="seal" aria-hidden="true">
+        <span>桂</span><span>林</span><span>之</span><span>印</span>
+      </div>
+
+      <div class="mountain" aria-hidden="true">
+        <svg viewBox="0 0 600 220" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="mfar" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#1c1a17" stop-opacity=".18"/>
+              <stop offset="1" stop-color="#1c1a17" stop-opacity=".32"/>
+            </linearGradient>
+            <linearGradient id="mmid" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#1c1a17" stop-opacity=".42"/>
+              <stop offset="1" stop-color="#1c1a17" stop-opacity=".7"/>
+            </linearGradient>
+            <linearGradient id="mnear" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0" stop-color="#1c1a17" stop-opacity=".82"/>
+              <stop offset="1" stop-color="#1c1a17" stop-opacity="1"/>
+            </linearGradient>
+          </defs>
+          <!-- 远山 -->
+          <path fill="url(#mfar)" d="M0,140 C40,120 60,90 100,100 C150,112 180,80 230,86 C280,92 310,60 360,72 C420,86 460,70 510,82 C560,94 580,80 600,100 L600,220 L0,220 Z"/>
+          <!-- 中山 -->
+          <path fill="url(#mmid)" d="M0,170 C50,140 90,160 130,140 C180,118 220,150 270,130 C310,114 350,140 400,128 C450,118 490,140 540,128 C580,118 600,140 600,150 L600,220 L0,220 Z"/>
+          <!-- 近山 -->
+          <path fill="url(#mnear)" d="M0,195 C40,180 80,200 130,188 C180,176 220,200 280,188 C340,176 380,196 440,188 C500,180 540,200 600,190 L600,220 L0,220 Z"/>
+          <!-- 一只小帆船 -->
+          <g transform="translate(220,178)" opacity=".85">
+            <path d="M0,0 L18,0 L9,-14 Z" fill="#efe7d4"/>
+            <path d="M-2,2 L20,2 L17,7 L1,7 Z" fill="#efe7d4"/>
+          </g>
+          <!-- 飞鸟 -->
+          <g stroke="#1c1a17" stroke-width="1.2" fill="none" opacity=".5">
+            <path d="M120,60 q4,-4 8,0 q4,-4 8,0"/>
+            <path d="M160,80 q3,-3 6,0 q3,-3 6,0"/>
+            <path d="M420,50 q4,-4 8,0 q4,-4 8,0"/>
+          </g>
+        </svg>
+      </div>
+
+      <div class="scroll-cue"><span>Scroll</span><div class="line"></div></div>
+    </section>
+
+    <!-- ============= INTRO QUOTE ============= -->
+    <section class="quote-block reveal">
+      <p>"千峰环野立，一水抱城流。"<br/>带上一卷山水，循着漓江的折痕，<br/>走完桂林的三日。</p>
+      <div class="by">— Field Note · 2026 Spring</div>
+    </section>
+
+    <!-- ============= DAY 1 ============= -->
+    <section class="chapter" id="day1">
+      <div class="chapter-head reveal">
+        <div class="num">01<small>DAY ONE</small></div>
+        <div class="ch">市區漫步<em>City Landmarks</em></div>
+      </div>
+      <p class="chapter-intro reveal d1">穿过明清古巷的青石板，从象鼻山的孔洞里看一截漓江，再到日月双塔下与夜色相对而坐。</p>
+      <div class="chapter-tags reveal d2">
+        <span class="tag v">地标</span>
+        <span class="tag">古建</span>
+        <span class="tag j">夜景</span>
+        <span class="tag">小吃</span>
+      </div>
+
+      <div class="timeline">
+        <div class="stop reveal d1" data-day="1" data-key="1-1">
+          <div class="pin"></div>
+          <div class="when">09:00 — Morning</div>
+          <div class="name">象鼻山<span class="dur">approx. 1h</span></div>
+          <div class="desc">从3号门进，正面拍下"水月洞"的天然拱门即可撤退，是桂林最经典的剪影。</div>
+        </div>
+        <div class="stop reveal d2" data-day="1" data-key="1-2">
+          <div class="pin"></div>
+          <div class="when">10:30 — Stroll</div>
+          <div class="name">两江四湖<span class="dur">walk · 40m</span></div>
+          <div class="desc">沿湖边步道散步，水面映着古榕与小桥，是城市里的山水画卷。</div>
+        </div>
+        <div class="stop reveal d3" data-day="1" data-key="1-3">
+          <div class="pin"></div>
+          <div class="when">14:00 — Afternoon</div>
+          <div class="name">靖江王府<span class="dur">门口打卡</span></div>
+          <div class="desc">明代藩王府邸，城墙厚重；不进园也能拍到沧桑石狮与朱门。</div>
+        </div>
+        <div class="stop reveal d4" data-day="1" data-key="1-4">
+          <div class="pin"></div>
+          <div class="when">15:00 — Old Lanes</div>
+          <div class="name">东西巷<span class="dur">approx. 2h</span></div>
+          <div class="desc">青砖白墙、马头墙、灯笼成排，是桂林少有的明清街区，适合慢拍古风照。</div>
+        </div>
+        <div class="stop reveal d1" data-day="1" data-key="1-5">
+          <div class="pin"></div>
+          <div class="when">19:00 — Night</div>
+          <div class="name">日月双塔<span class="dur">approx. 1h</span></div>
+          <div class="desc">夜里的双塔流着金光，水面倒影成双；远观或环湖一周，都很值得。</div>
+        </div>
+        <div class="stop reveal d2" data-day="1" data-key="1-6">
+          <div class="pin"></div>
+          <div class="when">20:30 — Supper</div>
+          <div class="name">正阳步行街<span class="dur">street food</span></div>
+          <div class="desc">桂林米粉、油茶、马蹄糕、椿记烧鹅 …… 边走边吃，把一天收尾。</div>
+        </div>
+      </div>
+
+      <div class="mini-card reveal">
+        <div class="head"><b>Day 01 · 路線</b><span>City Walk</span></div>
+        <div class="mini-map" id="map-d1"></div>
+      </div>
+    </section>
+
+    <!-- ============= DAY 2 ============= -->
+    <section class="chapter" id="day2">
+      <div class="chapter-head reveal">
+        <div class="num">02<small>DAY TWO</small></div>
+        <div class="ch">漓江入畫<em>Li River Cruise</em></div>
+      </div>
+      <p class="chapter-intro reveal d1">把自己交给漓江的水流，从甲板上看山的层叠、村落的炊烟，最后在阳朔的霓虹里收岸。</p>
+      <div class="chapter-tags reveal d2">
+        <span class="tag v">游船</span>
+        <span class="tag j">山水</span>
+        <span class="tag">古镇</span>
+        <span class="tag">夜生活</span>
+      </div>
+
+      <div class="timeline">
+        <div class="stop reveal d1" data-day="2" data-key="2-1">
+          <div class="pin"></div>
+          <div class="when">08:30 — Embark</div>
+          <div class="name">漓江游船<span class="dur">approx. 4h</span></div>
+          <div class="desc">从桂林磨盘山码头出发，慢慢顺流而下，山与山之间是一长卷会动的水墨。</div>
+        </div>
+        <div class="stop reveal d2" data-day="2" data-key="2-2">
+          <div class="pin"></div>
+          <div class="when">11:00 — On Deck</div>
+          <div class="name">九马画山<span class="dur">15m</span></div>
+          <div class="desc">导游会让你数马，能看见几匹是几分缘——上甲板，迎风站着别错过。</div>
+        </div>
+        <div class="stop reveal d3" data-day="2" data-key="2-3">
+          <div class="pin"></div>
+          <div class="when">13:30 — Old Town</div>
+          <div class="name">兴坪古镇<span class="dur">approx. 2h</span></div>
+          <div class="desc">拿出一张20元人民币，背景里那座山就在眼前——经典合影，必拍项目。</div>
+        </div>
+        <div class="stop reveal d4" data-day="2" data-key="2-4">
+          <div class="pin"></div>
+          <div class="when">19:30 — Night</div>
+          <div class="name">阳朔西街<span class="dur">approx. 2h</span></div>
+          <div class="desc">啤酒鱼、酒吧驻唱、灯笼街巷……一千个游人有一千种西街的夜。</div>
+        </div>
+      </div>
+
+      <div class="mini-card reveal">
+        <div class="head"><b>Day 02 · 航線</b><span>River Route</span></div>
+        <div class="mini-map" id="map-d2"></div>
+      </div>
+    </section>
+
+    <!-- ============= DAY 3 ============= -->
+    <section class="chapter" id="day3">
+      <div class="chapter-head reveal">
+        <div class="num">03<small>DAY THREE</small></div>
+        <div class="ch">田園騎行<em>Countryside Ride</em></div>
+      </div>
+      <p class="chapter-intro reveal d1">在山顶等一缕日出，再坐上竹筏漂过遇龙河，最后骑车穿过稻田，把桂林留在风里。</p>
+      <div class="chapter-tags reveal d2">
+        <span class="tag v">日出</span>
+        <span class="tag j">竹筏</span>
+        <span class="tag">骑行</span>
+        <span class="tag">稻田</span>
+      </div>
+
+      <div class="timeline">
+        <div class="stop reveal d1" data-day="3" data-key="3-1">
+          <div class="pin"></div>
+          <div class="when">05:30 — Sunrise</div>
+          <div class="name">相公山<span class="dur">approx. 2h</span></div>
+          <div class="desc">摸黑上山，等漓江第一湾的薄雾散开——一辈子最值得早起的山顶之一。</div>
+        </div>
+        <div class="stop reveal d2" data-day="3" data-key="3-2">
+          <div class="pin"></div>
+          <div class="when">10:00 — Bamboo Raft</div>
+          <div class="name">遇龙河竹筏<span class="dur">approx. 1.5h</span></div>
+          <div class="desc">两人一筏，撑篙的师傅会唱山歌，江水浅得能看见水草摇摆。</div>
+        </div>
+        <div class="stop reveal d3" data-day="3" data-key="3-3">
+          <div class="pin"></div>
+          <div class="when">14:00 — E-bike</div>
+          <div class="name">十里画廊<span class="dur">approx. 2h</span></div>
+          <div class="desc">租辆小电驴穿过稻田与喀斯特群山，遇见好看的就停一停。</div>
+        </div>
+        <div class="stop reveal d4" data-day="3" data-key="3-4">
+          <div class="pin"></div>
+          <div class="when">16:00 — Photo Spot</div>
+          <div class="name">工农桥<span class="dur">30m</span></div>
+          <div class="desc">桥上回望，是一面巨大的天然山水画屏——很多明信片都从这里取景。</div>
+        </div>
+        <div class="stop reveal d1" data-day="3" data-key="3-5">
+          <div class="pin"></div>
+          <div class="when">19:00 — Departure</div>
+          <div class="name">阳朔高铁站<span class="dur">go home</span></div>
+          <div class="desc">吃过晚餐再出发，三日山水，一口气装进背包带走。</div>
+        </div>
+      </div>
+
+      <div class="mini-card reveal">
+        <div class="head"><b>Day 03 · 騎行</b><span>Country Loop</span></div>
+        <div class="mini-map" id="map-d3"></div>
+      </div>
+    </section>
+
+    <!-- ============= FULL MAP ============= -->
+    <section class="full-map-section" id="full">
+      <div class="section-eyebrow reveal">Interactive · 高德地图</div>
+      <h2 class="reveal d1">三日全圖<small>Full Itinerary Map</small></h2>
+
+      <div class="legend reveal d2">
+        <div class="item"><div class="swatch s1"></div>Day 01 · 市區</div>
+        <div class="item"><div class="swatch s2"></div>Day 02 · 漓江</div>
+        <div class="item"><div class="swatch s3"></div>Day 03 · 田園</div>
+      </div>
+
+      <div class="day-tabs reveal d3">
+        <button data-tab="all" class="active">全部<span class="en">All</span></button>
+        <button data-tab="1">壹<span class="en">Day 1</span></button>
+        <button data-tab="2">貳<span class="en">Day 2</span></button>
+        <button data-tab="3">叄<span class="en">Day 3</span></button>
+      </div>
+
+      <div id="full-map" class="reveal d4"></div>
+      <div class="disclaim">Tap a stop above to focus · 点击上方景点可定位</div>
+    </section>
+
+    <!-- ============= TIPS ============= -->
+    <section class="tips reveal">
+      <h3>行前提示<span class="badge">Notes</span></h3>
+      <ul>
+        <li>漓江游船提前1–2天订票，旺季临时买票几乎无座位。</li>
+        <li>相公山看日出需 4:30 出发，备一件薄外套与头灯。</li>
+        <li>遇龙河竹筏可只坐"金龙桥—旧县"或"水厄底—工农桥"半段。</li>
+        <li>阳朔租电驴需身份证 + 押金，约 50–80 元一日。</li>
+        <li>桂林米粉首选"崇善""日头火"，正阳步行街分店即可。</li>
+      </ul>
+    </section>
+
+    <footer>
+      <div class="col">桂&nbsp;林&nbsp;山&nbsp;水</div>
+      <div class="lat">25.27°N · 110.29°E</div>
+      <div class="stamp-row"><span class="dash"></span><span class="end">卷&nbsp;終</span><span class="dash"></span></div>
+    </footer>
+
+  </main>
+
+  <!-- 高德地图 JS API -->
+  <script src="https://webapi.amap.com/maps?v=2.0&key=559dbe255d8b6e838d87d3853231c11c&plugin=AMap.Scale,AMap.ToolBar"></script>
+
+  <script>
+    /* =============== 数据 =============== */
+    const POINTS = {
+      "1-1": { name:"象鼻山",   lng:110.297, lat:25.265, day:1, idx:1 },
+      "1-2": { name:"两江四湖", lng:110.290, lat:25.275, day:1, idx:2 },
+      "1-3": { name:"靖江王府", lng:110.299, lat:25.281, day:1, idx:3 },
+      "1-4": { name:"东西巷",   lng:110.298, lat:25.276, day:1, idx:4 },
+      "1-5": { name:"日月双塔", lng:110.298, lat:25.268, day:1, idx:5 },
+      "1-6": { name:"正阳步行街", lng:110.293, lat:25.276, day:1, idx:6 },
+
+      "2-1": { name:"漓江码头", lng:110.300, lat:25.252, day:2, idx:1 },
+      "2-2": { name:"九马画山", lng:110.498, lat:24.883, day:2, idx:2 },
+      "2-3": { name:"兴坪古镇", lng:110.520, lat:24.916, day:2, idx:3 },
+      "2-4": { name:"阳朔西街", lng:110.493, lat:24.778, day:2, idx:4 },
+
+      "3-1": { name:"相公山",   lng:110.521, lat:24.846, day:3, idx:1 },
+      "3-2": { name:"遇龙河",   lng:110.404, lat:24.797, day:3, idx:2 },
+      "3-3": { name:"十里画廊", lng:110.470, lat:24.760, day:3, idx:3 },
+      "3-4": { name:"工农桥",   lng:110.469, lat:24.763, day:3, idx:4 },
+      "3-5": { name:"阳朔高铁站", lng:110.553, lat:24.890, day:3, idx:5 },
+    };
+
+    const DAY_COLORS = { 1:"#a8362a", 2:"#3a5a40", 3:"#b08949" };
+
+    /* =============== 工具 =============== */
+    function pointsByDay(d){
+      return Object.entries(POINTS)
+        .filter(([k,v])=>v.day===d)
+        .sort((a,b)=>a[1].idx-b[1].idx)
+        .map(([k,v])=>({key:k,...v}));
+    }
+
+    function buildMarker(map, p, opts={}){
+      const cls = "gl-marker day"+p.day;
+      const html = '<div class="'+cls+'"><div class="body"><span class="num">'+
+        String(p.idx).padStart(2,'0')+'</span>'+p.name+'</div></div>';
+      const m = new AMap.Marker({
+        position:[p.lng,p.lat],
+        content:html,
+        anchor:'bottom-center',
+        zIndex: 80
+      });
+      m.setMap(map);
+      return m;
+    }
+
+    function buildPolyline(map, pts, color){
+      return new AMap.Polyline({
+        map,
+        path: pts.map(p=>[p.lng,p.lat]),
+        strokeColor: color,
+        strokeWeight: 4,
+        strokeOpacity: .85,
+        strokeStyle: "dashed",
+        lineJoin:"round",
+        lineCap:"round",
+        zIndex: 50,
+      });
+    }
+
+    /* 自定义地图样式：水墨风（使用免费样式 amap://styles/whitesmoke 作为底） */
+    const MAP_STYLE = "amap://styles/whitesmoke";
+
+    /* =============== 迷你地图 =============== */
+    function initMini(elId, day){
+      const pts = pointsByDay(day);
+      const map = new AMap.Map(elId, {
+        zoom: day===1 ? 14.2 : (day===2 ? 10.6 : 11.2),
+        center: day===1 ? [110.297,25.273] : (day===2 ? [110.42,25.0] : [110.48,24.81]),
+        mapStyle: MAP_STYLE,
+        viewMode:"2D",
+        features:["bg","road","building","point"],
+        dragEnable:true,
+        zoomEnable:true,
+        doubleClickZoom:false,
+        scrollWheel:false,
+        touchZoom:true,
+      });
+      pts.forEach(p=>buildMarker(map,p));
+      buildPolyline(map, pts, DAY_COLORS[day]);
+      map.setFitView(null,false,[40,40,40,40]);
+    }
+
+    /* =============== 全地图 =============== */
+    let fullMap, fullMarkers={}, fullLines={};
+    function initFull(){
+      fullMap = new AMap.Map("full-map", {
+        zoom: 9.5,
+        center: [110.42, 25.05],
+        mapStyle: MAP_STYLE,
+        viewMode:"2D",
+        features:["bg","road","building","point"],
+      });
+      fullMap.addControl(new AMap.Scale({position:"LB"}));
+      [1,2,3].forEach(d=>{
+        const pts = pointsByDay(d);
+        fullMarkers[d] = pts.map(p=>buildMarker(fullMap,p));
+        fullLines[d] = buildPolyline(fullMap, pts, DAY_COLORS[d]);
+      });
+      fullMap.setFitView(null,false,[60,60,60,60]);
+    }
+
+    function showOnFull(tab){
+      [1,2,3].forEach(d=>{
+        const visible = (tab==="all" || tab===String(d));
+        fullMarkers[d].forEach(m=> visible ? m.show() : m.hide());
+        fullLines[d].setOptions({strokeOpacity: visible ? .85 : 0});
+      });
+      // 重新 fitView
+      const visiblePts = [];
+      [1,2,3].forEach(d=>{
+        if(tab==="all" || tab===String(d)) visiblePts.push(...pointsByDay(d));
+      });
+      if(visiblePts.length){
+        fullMap.setFitView(
+          fullMarkers[1].concat(fullMarkers[2],fullMarkers[3]).filter(m=>m.getMap()&&m.dom&&m.dom.style.display!=="none"),
+          false, [60,60,60,60]
+        );
+      }
+    }
+
+    /* =============== 启动 =============== */
+    window.addEventListener("load", ()=>{
+      try{
+        initMini("map-d1",1);
+        initMini("map-d2",2);
+        initMini("map-d3",3);
+        initFull();
+      }catch(e){ console.error("Map init failed:",e); }
+
+      // 标签切换
+      document.querySelectorAll(".day-tabs button").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          document.querySelectorAll(".day-tabs button").forEach(b=>b.classList.remove("active"));
+          btn.classList.add("active");
+          const tab = btn.dataset.tab;
+          [1,2,3].forEach(d=>{
+            const show = (tab==="all" || tab===String(d));
+            fullMarkers[d].forEach(m=> show ? m.show() : m.hide());
+            fullLines[d].setOptions({strokeOpacity: show ? .85 : 0});
+          });
+          let pts = [];
+          if(tab==="all"){ pts = [...pointsByDay(1),...pointsByDay(2),...pointsByDay(3)]; }
+          else { pts = pointsByDay(parseInt(tab)); }
+          if(pts.length){
+            const bounds = new AMap.Bounds(
+              [Math.min(...pts.map(p=>p.lng))-.02, Math.min(...pts.map(p=>p.lat))-.02],
+              [Math.max(...pts.map(p=>p.lng))+.02, Math.max(...pts.map(p=>p.lat))+.02]
+            );
+            fullMap.setBounds(bounds, false, [60,60,60,60]);
+          }
+        });
+      });
+
+      // 点击景点跳转到全图并定位
+      document.querySelectorAll(".stop[data-key]").forEach(stop=>{
+        stop.addEventListener("click", ()=>{
+          const key = stop.dataset.key;
+          const p = POINTS[key];
+          if(!p) return;
+          document.getElementById("full").scrollIntoView({behavior:"smooth", block:"start"});
+          setTimeout(()=>{
+            // 切到对应 tab
+            document.querySelectorAll(".day-tabs button").forEach(b=>b.classList.remove("active"));
+            const tabBtn = document.querySelector('.day-tabs button[data-tab="'+p.day+'"]');
+            if(tabBtn) tabBtn.classList.add("active");
+            [1,2,3].forEach(d=>{
+              const show = d===p.day;
+              fullMarkers[d].forEach(m=> show ? m.show() : m.hide());
+              fullLines[d].setOptions({strokeOpacity: show ? .85 : 0});
+            });
+            fullMap.setZoomAndCenter(13, [p.lng,p.lat], false, 600);
+          }, 700);
+        });
+      });
+
+      // 滚动揭示
+      const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("in"); });
+      }, {threshold:.12});
+      document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+    });
+  </script>
+</body>
+</html>
